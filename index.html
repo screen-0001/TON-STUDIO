@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>TØN~Studio</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap');
+
+  * {
+    margin: 0; padding: 0; box-sizing: border-box;
+  }
+
+  body {
+    font-family: 'Cairo', sans-serif;
+    background-color: #001025; /* أزرق غامق */
+    background-image:
+      radial-gradient(2px 2px at 20% 25%, #9bbcff, transparent),
+      radial-gradient(1.5px 1.5px at 55% 35%, #cad9ff, transparent),
+      radial-gradient(2px 2px at 75% 65%, #aac9ff, transparent);
+    background-repeat: repeat;
+    background-size: 150px 150px;
+    color: #d1d9ff;
+    height: 100vh;
+    display: flex;
+    overflow: hidden;
+  }
+
+  /* شريط جانبي لأعضاء الاستديو */
+  #sidebar {
+    width: 180px;
+    background: rgba(25, 35, 65, 0.9);
+    padding: 20px 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;  /* تم تعديلها للوسط */
+    gap: 20px;
+    z-index: 10;
+  }
+
+  #sidebar h3 {
+    font-weight: 700;
+    font-size: 1.5rem;
+    text-align: center;
+    color: #89aaff;
+    margin-bottom: 10px;
+    user-select: none;
+    text-shadow: 0 0 6px #5577cc;
+  }
+
+  .member {
+    background: #102a5e;
+    color: #cbd6ff;
+    border-radius: 10px;
+    padding: 10px 8px;
+    font-weight: 600;
+    text-align: center;
+    box-shadow: 0 0 12px #3b5bcc88;
+    cursor: default;
+    user-select: none;
+    transition: background-color 0.3s ease;
+  }
+
+  .member:hover {
+    background-color: #2a4bbd;
+    color: #fff;
+    box-shadow: 0 0 20px #2e56ffcc;
+  }
+
+  /* الهيكل الرئيسي */
+  #main-content {
+    flex: 1;
+    padding: 40px 50px;
+    overflow-y: auto;
+    z-index: 10;
+  }
+
+ header {
+  position: fixed;
+  top: 0;
+  left: 0;          /* بدل left: 180px; ليمتد على كامل العرض */
+  width: 100%;      /* العرض كامل */
+  height: 60px;
+  background: rgba(10, 20, 50, 0.9);
+  display: flex;
+  align-items: center;
+  padding-left: 200px; /* خلي مكان الشريط الجانبي */
+  box-shadow: 0 2px 8px #000a;
+  user-select: none;
+  z-index: 20;
+  border-bottom: 3px solid #3a62ff; /* الخط الأزرق الممتد */
+}
+
+
+  header h1 {
+    color: #99bbff;
+    font-weight: 700;
+    font-size: 2rem;
+    text-shadow: 0 0 12px #3366ff;
+  }
+
+  /* قسم الألعاب */
+  #games {
+    margin-top: 80px;
+  }
+
+  #games h2 {
+    font-weight: 700;
+    font-size: 2.2rem;
+    margin-bottom: 30px;
+    color: #aac8ff;
+    text-shadow: 0 0 8px #5588ff;
+  }
+
+  .game-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 30px;
+  }
+
+  .game-card {
+    background: rgba(15, 25, 55, 0.9);
+    border-radius: 15px;
+    padding: 25px 20px;
+    box-shadow: 0 0 18px #3355ccaa;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+  }
+
+  .game-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 0 25px #4477eecc;
+  }
+
+  .game-title {
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin-bottom: 15px;
+    color: #cde1ff;
+  }
+
+  .game-desc {
+    font-size: 1rem;
+    color: #aabbcccc;
+    flex-grow: 1;
+    margin-bottom: 20px;
+    line-height: 1.3;
+  }
+
+  .download-btn {
+    background-color: #3a62ff;
+    padding: 12px 25px;
+    border-radius: 50px;
+    font-weight: 700;
+    color: #e1e8ff;
+    text-decoration: none;
+    text-align: center;
+    user-select: none;
+    box-shadow: 0 0 15px #3a62ffcc;
+    transition: background-color 0.3s ease;
+  }
+
+  .download-btn:hover {
+    background-color: #5a82ff;
+    box-shadow: 0 0 25px #5a82ffdd;
+  }
+
+  /* التمرير في المحتوى */
+  #main-content::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  #main-content::-webkit-scrollbar-thumb {
+    background: #4466ccaa;
+    border-radius: 10px;
+  }
+
+  #main-content::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  /* تجاوب */
+  @media (max-width: 900px) {
+    body {
+      flex-direction: column;
+    }
+    #sidebar {
+      width: 100%;
+      flex-direction: row;
+      justify-content: center;
+      padding: 10px 0;
+      gap: 15px;
+      overflow-x: auto;
+      align-items: center;
+    }
+    #sidebar h3 {
+      display: none;
+    }
+    #main-content {
+      padding: 20px 15px 50px;
+      margin-top: 0;
+      height: auto;
+    }
+    header {
+      position: relative;
+      left: 0;
+      width: 100%;
+      padding: 15px 20px;
+      justify-content: center;
+    }
+    #games h2 {
+      font-size: 1.8rem;
+      margin-bottom: 20px;
+    }
+    .game-list {
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 20px;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div id="sidebar">
+  <h3>أعضاء الاستديو</h3>
+  <div class="member">𝕊𝕔𝕣𝕖𝕖𝕟</div>
+  <div class="member">»Waleed«</div>
+  <div class="member">RIBS_G14</div>
+</div>
+
+<header>
+  <h1>TØN~Studio</h1>
+</header>
+
+<div id="main-content">
+  <section id="games">
+    <h2>العابنا</h2>
+    <div class="game-list">
+      <article class="game-card">
+        <h3 class="game-title">تجربة 1</h3>
+        <p class="game-desc">هذه لعبة تجربة 1، استمتع بمغامرتك في عالم الفضاء!</p>
+        <a href="https://example.com/game1-download" target="_blank" rel="noopener" class="download-btn">تحميل اللعبة</a>
+      </article>
+      <article class="game-card">
+        <h3 class="game-title">تجربة 2</h3>
+        <p class="game-desc">تجربة 2 لعبة مليئة بالتحديات والأكشن.</p>
+        <a href="https://example.com/game2-download" target="_blank" rel="noopener" class="download-btn">تحميل اللعبة</a>
+      </article>
+      <article class="game-card">
+        <h3 class="game-title">تجربة 3</h3>
+        <p class="game-desc">تجربة 3 تقدم لك متعة فريدة من نوعها، جربها الآن.</p>
+        <a href="https://example.com/game3-download" target="_blank" rel="noopener" class="download-btn">تحميل اللعبة</a>
+      </article>
+    </div>
+  </section>
+</div>
+
+</body>
+</html>
